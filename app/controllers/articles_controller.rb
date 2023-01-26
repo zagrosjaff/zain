@@ -48,20 +48,14 @@ class ArticlesController < ApplicationController
   end
 
   # DELETE /articles/1 or /articles/1.json
-  # def destroy
-  #   @article.destroy
-  #
-  #   respond_to do |format|
-  #     format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
-  #     format.json { head :no_content }
-  #   end
-  # end
   def destroy
-    @article = Article.find(params[:id])
     @article.destroy
-
-    redirect_to root_path, status: :see_other
+    respond_to do |format|
+      format.html { redirect_to articles_url, notice: "Article was successfully destroyed."}
+      format.json { head :no_content}
+    end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
