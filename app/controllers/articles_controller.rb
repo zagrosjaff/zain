@@ -48,15 +48,25 @@ class ArticlesController < ApplicationController
   end
 
   # DELETE /articles/1 or /articles/1.json
+  # def destroy
+  #   @article.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
+  #     format.json { head :no_content }
+  #   end
+  # end
+
   def destroy
-    @article.destroy
-    respond_to do |format|
-      format.html { redirect_to articles_url, notice: "Article was successfully destroyed."}
-      format.json { head :no_content}
+    format = current_user.lists.find(params[:id])
+    format.active = false
+    format.save
+
+    if @list.save
+      redirect_to root_path, :notice => "List '#{@list.name}' deleted."
+    else
+      render :action => 'edit'
     end
   end
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
